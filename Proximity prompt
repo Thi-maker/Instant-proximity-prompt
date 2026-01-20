@@ -1,0 +1,17 @@
+-- Serviço para detectar quando coisas são adicionadas ao jogo
+local Workspace = game:GetService("Workspace")
+
+-- Função que força o prompt a ser instantâneo
+local function fazerInstantaneo(instancia)
+    if instancia:IsA("ProximityPrompt") then
+        instancia.HoldDuration = 0
+    end
+end
+
+-- 1. Varre o jogo inteiro agora e aplica em tudo que já existe
+for _, objeto in pairs(Workspace:GetDescendants()) do
+    fazerInstantaneo(objeto)
+end
+
+-- 2. Fica vigiando: se qualquer novo Prompt aparecer, aplica nele também
+Workspace.DescendantAdded:Connect(fazerInstantaneo)
